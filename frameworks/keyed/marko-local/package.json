@@ -2,7 +2,7 @@
   "name": "marko-local",
   "description": "Marko starter app linked against a local build of Marko",
   "js-framework-benchmark": {
-    "frameworkVersionFromPackage": "marko",
+    "frameworkVersion": "local",
     "frameworkHomeURL": "https://markojs.com/",
     "customURL": "/dist/public",
     "issues": [

@@ -26,6 +26,22 @@ MARKO_REPO=/path/to/marko npm run link-local
 Re-run `npm run link-local` whenever the local Marko changes to refresh the
 comparison.
 
+## Running the comparison
+
+From the repo root, [`bench-local.sh`](../../../bench-local.sh) builds both
+frameworks and runs the benchmark with the right browser/runner settings:
+
+```sh
+# Build keyed/marko + keyed/marko-local and compare them on 01_run1k:
+./bench-local.sh
+
+# Re-run without rebuilding, on specific benchmarks:
+./bench-local.sh --no-build --benchmark 01_ 02_ --count 10
+```
+
+See [`BENCHMARKING-LOCAL.md`](../../../BENCHMARKING-LOCAL.md) for details and the
+manual equivalent.
+
 ## How it works
 
 `link-local-marko.mjs`:
