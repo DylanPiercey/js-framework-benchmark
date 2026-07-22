@@ -93,6 +93,9 @@ export async function checkCountForSelector(page: Page, selector: string, expect
 
 function browserPath(benchmarkOptions: BenchmarkOptions) {
   if (benchmarkOptions.chromeBinaryPath) return benchmarkOptions.chromeBinaryPath;
+  // Allow overriding the Chrome/Chromium executable via env var (useful in CI / containers
+  // where a prebuilt Playwright Chromium exists but Google Chrome is not installed).
+  if (process.env.CHROME_BINARY) return process.env.CHROME_BINARY;
   if (process.platform == "darwin") {
     return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
   } else if (process.platform == "linux") {
@@ -107,6 +110,8 @@ function browserPath(benchmarkOptions: BenchmarkOptions) {
 export async function startBrowser(benchmarkOptions: BenchmarkOptions): Promise<Browser> {
   let args = ["--window-size=1000,800", "--js-flags=--expose-gc", "--enable-benchmarking"];
   if (benchmarkOptions.headless) args.push("--headless=new");
+  // Chromium refuses to run as root (e.g. inside containers) without this flag.
+  if (process.env.CHROME_NO_SANDBOX) args.push("--no-sandbox");
   const browser = await chromium.launch({
     args,
     headless: false,
